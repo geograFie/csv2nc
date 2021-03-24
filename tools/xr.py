@@ -4,7 +4,9 @@ import pandas as pd
 import numpy as np
 import xarray as xr
 
-from .tools import Preprocessing
+# from .tools import Preprocessing
+
+from .container import strip_spaces
 
 class XR_Attrs:
     def __init__(self, xr, local_attrs=None, incl_local=None,
@@ -19,8 +21,7 @@ class XR_Attrs:
 
     def df_pp(self,df):
         df = df.copy()
-        pp = Preprocessing(df)
-        df = pp.strip_spaces(['standard_name','variable'])
+        df = strip_spaces(df,['standard_name','variable'])
         return df.set_index('variable')
 
     def assign_local_attrs(self):

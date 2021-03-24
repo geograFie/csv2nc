@@ -13,16 +13,18 @@ import pandas as pd
 import numpy as np
 import xarray as xr
 
-from tools.container import Container
+from tools.container import Metadata, DataContainer
 from tools.data import Data
 from tools.xr import XR_Attrs
+
 
 #%% DATA
 data_path = Path('../data/mose/')
 xls_file = 'test.xls'
 
 data = pd.read_csv(data_path / 'MOSE1_TK3Result_Lindenberg.csv')
-meta = pd.read_excel(data_path / xls_file,
+
+metadata = pd.read_excel(data_path / xls_file,
                      sheet_name='csv2nc',
                      na_values=['NaN','nan','n/a'])
 
@@ -30,13 +32,20 @@ global_attrs = pd.read_excel(data_path / xls_file,
                              sheet_name='global attributes',
                              na_values=['NaN','nan','n/a'])
 
-coords = pd.read_excel(data_path / xls_file,
+dims_attrs = pd.read_excel(data_path / xls_file,
                       sheet_name='coordinates',
                       na_values=['NaN','nan','n/a'])
+
+DC = DataContainer(data=data,
+                   metadata=metadata,
+                   global_attrs=global_attrs,
+                   dims_attrs=dims_attrs)
+
+
 #%% MAIN
 
-C = Container(meta)
-target = C.target_df()
+m = Metadata(DC)
+target = m.target_df()
 
 D = Data(data,target,
          time_index='T_mid',
