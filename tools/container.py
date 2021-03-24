@@ -3,10 +3,20 @@
 import pandas as pd
 import numpy as np
 
+from .tools import Preprocessing
+
+# def strip_spaces(df):
+#     print('removing spaces')
+#     """remove leading and trailing spaces"""
+#     df = df.copy()  # not necessary but to prevent CopyWarning
+#     tmp = df.select_dtypes(['object'])
+#     df.loc[:, tmp.columns] = tmp.apply(lambda x: x.str.strip())
+#     return df
 
 class Container:
     def __init__(self, df):
-        self.df = df[df['standard_name'].isnull() == False].set_index('standard_name')
+        # self.df = df[df['standard_name'].isnull() == False].set_index('standard_name')
+        self.df = self.df_pp(df)
         self.src_names = list(self.df['src_name'])
         self.dst_names = list(self.df.index)
         self.unit_conv = list(self.df['unit_conversion'].replace({np.nan: '*1'}))
@@ -27,8 +37,15 @@ class Container:
 
     #         return df
 
-    def unit_conversion(self):
+    def df_pp(self,df):
+        """dataframe preprocessing"""
+        df = df[df['standard_name'].isnull() == False]
+        # df = strip_spaces(df)
+        pp = Preprocessing(df)
+        df = pp.strip_spaces(['standard_name','src_name'])
+        return df.set_index('standard_name')
 
+    def unit_conversion(self):
         def check_operators(x):
             try:
                 return '%+g' % float(x)
@@ -55,6 +72,9 @@ class Container:
                 'Duplicates detected! Please check again the standard_name of following variables: {}'.format(doubles))
         else:
             pass
+
+    def strip_spaces(self):
+        return
 
     def target_df(self):
         self.check_dupl()
