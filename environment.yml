@@ -14,4 +14,5 @@ dependencies:
   - pandas
   - proj
   - xarray
+  - xlrd
 prefix: "$HOME/miniconda3/envs/geo"
