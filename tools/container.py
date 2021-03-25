@@ -10,8 +10,6 @@ def strip_spaces(df, varnames):
     df.loc[:, varnames] = df[varnames].apply(lambda x: x.str.strip())
     return df
 
-
-
 class DataContainer:
     def __init__(self,data,metadata,global_attrs,dims_attrs, list_local_attrs):
         self.data = data
@@ -77,44 +75,3 @@ class DataContainer:
         return unit_conv
 
 
-# class Metadata:
-#     def __init__(self, DataContainer):
-#         self.DC = DataContainer
-#         self.src_names = self.DC.src_names
-#         self.dst_names = self.DC.dst_names
-#         self.metadata = self.DC.metadata
-#
-#         self.unit_conv = self.unit_conversion()
-#         self._FillValue = list(self.metadata['_FillValue'])
-
-
-    # def unit_conversion(self):
-    #     def check_operators(x):
-    #         try:
-    #             return '%+g' % float(x)
-    #         except:
-    #             if str(x)[0] not in ['/', '*', '-', '+']:
-    #                 return '*1'
-    #             else:
-    #                 return x
-    #
-    #     conv_list = list(self.metadata['unit_conversion'].replace({np.nan: '*1'}))
-    #     unit_conv = {dst: dst + check_operators(conv)
-    #             for dst, conv in zip(self.dst_names, conv_list)}
-    #     return unit_conv
-
-    # def target_df(self):
-    #     self.check_dupl()
-    #
-    #     dst = pd.DataFrame(zip(self.src_names,
-    #                            self.unit_conversion().values()),
-    #                        index=self.dst_names,
-    #                        columns=['src_name', 'conv_factor'])
-    #     dst['unit_conversion'] = dst.index + dst['conv_factor']
-    #     dst['_FillValue'] = self._FillValue
-    #
-    #             for i in self.local_attrs:
-    #                 dst[i] = self.df.loc[i]
-    #
-    #             return self.df[list(self.names())]
-    #     return dst

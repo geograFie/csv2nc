@@ -14,7 +14,7 @@ import numpy as np
 import xarray as xr
 
 from tools.container import DataContainer
-from tools.data import Data
+from tools.data import DF2XR
 from tools.xr import XR_Attrs
 
 
@@ -41,13 +41,13 @@ DC = DataContainer(data,meta,global_attrs,dims_attrs,list_local_attrs)
 
 #%% MAIN
 
-da = Data(DC,time_index='T_mid',time_vars=['T_begin','T_end'])
-dst = da.xr
-X = XR_Attrs(dst,DC)
-dst = X.assign_global_attrs()
-dst = X.assign_local_attrs()
-dst = X.expand_dims()
-dst = X.assign_dim_attrs()
+df2xr = DF2XR(DC,time_index='T_mid',time_vars=['T_begin','T_end'])
+dst = df2xr.xr
+xr_attrs = XR_Attrs(dst,DC)
+dst = xr_attrs.assign_global_attrs()
+dst = xr_attrs.assign_local_attrs()
+dst = xr_attrs.expand_dims()
+dst = xr_attrs.assign_dim_attrs()
 
 ################# ????
 # FLAGS
