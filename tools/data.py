@@ -5,7 +5,7 @@ import xarray as xr
 
 from .container import DataContainer
 
-class Data:
+class DF2XR:
     def __init__(self, DataContainer,time_index='T_mid',
                  time_vars=None, seconds_since='1970-01-01'):  # , set_index=['T_mid']):
         self.DC = DataContainer
