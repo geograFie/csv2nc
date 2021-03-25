@@ -1,0 +1,17 @@
+---
+name: geo
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - pip
+  - gdal=3.0.4
+  - jupyter
+  - jupyterlab
+  - netcdf4
+  - numpy
+  - pandas
+  - proj
+  - xarray
+prefix: "$HOME/miniconda3/envs/geo"
